@@ -2,6 +2,7 @@ package com.spring.data.spark.sparkdata.library.invocationHandler;
 
 import com.spring.data.spark.sparkdata.library.dataExtractors.DataExtractor;
 import com.spring.data.spark.sparkdata.library.finalizers.Finalizer;
+import lombok.Builder;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -11,6 +12,10 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
+
+// So this class need to be set by factory
+
+@Builder
 public class SparkInvocationHandler implements InvocationHandler {
     private Class<?> model;
     private String pathToData;

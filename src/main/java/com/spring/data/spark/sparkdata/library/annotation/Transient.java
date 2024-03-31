@@ -1,2 +1,10 @@
-package com.spring.data.spark.sparkdata.library.annotation;public @interface Transient {
+package com.spring.data.spark.sparkdata.library.annotation;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+
+// Generally this annotation is used to prevent loading some fields from data classes
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Transient {
 }
