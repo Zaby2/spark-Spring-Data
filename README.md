@@ -6,6 +6,7 @@ This project integrates Apache Spark with Spring Data, offering a seamless bridg
 ## Features
 - **SparkRepository Interface:** Extends the `public interface SparkRepository<M>` for easy integration with Spring Data, providing a familiar repository pattern for interacting with Spark datasets.
 - **Support for Multiple Formats:** This project supports various data formats including JSON, CSV, and more, enabling seamless data ingestion and processing.
+- **Annotation @Source provides functionality for data storage.
 
 ## Usage
 1. Extend your repository interfaces from `SparkRepository<M>` to leverage Spark's distributed computing capabilities within your Spring Data repositories.
