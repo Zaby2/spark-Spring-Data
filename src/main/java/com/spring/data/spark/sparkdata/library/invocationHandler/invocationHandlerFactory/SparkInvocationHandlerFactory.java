@@ -4,18 +4,21 @@ import com.spring.data.spark.sparkdata.library.annotation.Source;
 import com.spring.data.spark.sparkdata.library.annotation.Transient;
 import com.spring.data.spark.sparkdata.library.dataExtractors.DataExtractor;
 import com.spring.data.spark.sparkdata.library.dataExtractors.dataresolver.DataExtractorResolver;
+import com.spring.data.spark.sparkdata.library.dataExtractors.spider.TransformationSpider;
 import com.spring.data.spark.sparkdata.library.invocationHandler.SparkInvocationHandler;
+import com.spring.data.spark.sparkdata.library.invocationHandler.SparkTransformation;
 import com.spring.data.spark.sparkdata.library.repository.SparkRepository;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
 public class SparkInvocationHandlerFactory {
+
+    private Map<String, TransformationSpider> transformationSpiderMap;
 
     private DataExtractorResolver resolver;
 
@@ -25,10 +28,21 @@ public class SparkInvocationHandlerFactory {
         Set<String> fieldNames = getFieldNames(sparkRepositoryImpl);
         DataExtractor dataExtractor = resolver.resolve(pathToData);
 
+
+        Map<Method, List<SparkTransformation>> transformationChain = new HashMap<>();
+        Method [] methods = sparkRepositoryImpl.getMethods();
+        for (Method method : methods) {
+            TransformationSpider transformationSpider = null; // so now we parse methods, and  for each method we will have his own spider, which will create a special chain
+            String methodName = method.getName();
+
+        }
+
         return SparkInvocationHandler.builder()
                 .model(modelClass)
                 .pathToData(pathToData)
-                .dataExtractor(dataExtractor).build(); // not complete
+                .dataExtractor(dataExtractor).
+                transformationChain(transformationChain).
+                build(); // not complete
 
     }
 
