@@ -34,7 +34,7 @@ public class SparkInvocationHandlerFactory {
         for (Method method : methods) {
             TransformationSpider transformationSpider = null; // so now we parse methods, and  for each method we will have his own spider, which will create a special chain
             String methodName = method.getName();
-            // here will be some resolvers work, need ro create parser that will be fast and accurate 
+            // here will be some resolvers work, need ro create parser that will be fast and accurate
 
         }
 
