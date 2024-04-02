@@ -22,7 +22,7 @@ public class SparkApplicationContextInitializer implements ApplicationContextIni
         Set<Class<? extends SparkRepository>> sparkRepoImpls = scanner.getSubTypesOf(SparkRepository.class);
 
         sparkRepoImpls.forEach(sparkRepoImpl -> {
-            Object newProxyInstance = Proxy.newProxyInstance(sparkRepoImpl.getClassLoader(), new Class[]{SparkRepository.class}, );
+            Object newProxyInstance = Proxy.newProxyInstance(sparkRepoImpl.getClassLoader(), new Class[]{SparkRepository.class}, null);
             applicationContext.getBeanFactory().registerSingleton(Introspector.decapitalize(sparkRepoImpl.getSimpleName()), newProxyInstance); // need to create and set
         });
 
