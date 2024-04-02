@@ -37,7 +37,7 @@ Contributions are welcome! If you have any ideas, suggestions, or bug fixes, fee
 
 
 ## Contact
-For any inquiries or support, please contact [projectmaintainer@example.com](mailto:work.acca@yandex.ru).
+For any inquiries or support, please contact [work.acca@yandex.ru](mailto:work.acca@yandex.ru).
 
 ## Acknowledgments
 We would like to express our gratitude to the Apache Spark and Spring Data communities for their invaluable contributions to open-source software development.
