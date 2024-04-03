@@ -8,6 +8,8 @@ import com.spring.data.spark.sparkdata.library.dataExtractors.spider.Transformat
 import com.spring.data.spark.sparkdata.library.invocationHandler.SparkInvocationHandler;
 import com.spring.data.spark.sparkdata.library.invocationHandler.SparkTransformation;
 import com.spring.data.spark.sparkdata.library.repository.SparkRepository;
+import com.spring.data.spark.sparkdata.library.wordsresolver.WordResolver;
+import com.spring.data.spark.sparkdata.library.wordsresolver.WordResolverImpl;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -22,19 +24,29 @@ public class SparkInvocationHandlerFactory {
 
     private DataExtractorResolver resolver;
 
+
+    private WordResolver wordResolver = new WordResolverImpl();
+
+
     public SparkInvocationHandler createSparkInvocationHandler(Class<? extends SparkRepository> sparkRepositoryImpl) {
         Class<?> modelClass = getModelClass(sparkRepositoryImpl);
         String pathToData = modelClass.getAnnotation(Source.class).value();
         Set<String> fieldNames = getFieldNames(sparkRepositoryImpl);
         DataExtractor dataExtractor = resolver.resolve(pathToData);
-
-
         Map<Method, List<SparkTransformation>> transformationChain = new HashMap<>();
         Method [] methods = sparkRepositoryImpl.getMethods();
+        List<SparkTransformation> transformations = new ArrayList<>();
         for (Method method : methods) {
-            TransformationSpider transformationSpider = null; // so now we parse methods, and  for each method we will have his own spider, which will create a special chain
-            String methodName = method.getName();
+            TransformationSpider transformationSpider = null;
+            List<String> methodWords = wordResolver.resolveJavaMethodWords(method.getName());
+            while(methodWords.size() > 1) {
+                String transformationSpiderName = wordResolver.findAndRemoveMatchingMethodNamesIfExists(transformationSpiderMap.keySet(), methodWords);
+                if(!transformationSpiderName.isEmpty()) {
+                    transformationSpider = transformationSpiderMap.get(transformationSpiderName); // here we will always switch to the valid strategy
+                }
+                transformations.add(transformationSpider.getTransformation(methodWords));
 
+            }
 
         }
 

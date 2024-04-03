@@ -1,4 +1,4 @@
-package com.spring.data.spark.sparkdata.library.dataExtractors.dataresolver;
+package com.spring.data.spark.sparkdata.library.dataExtractors;
 
 import com.spring.data.spark.sparkdata.library.dataExtractors.DataExtractor;
 import org.apache.spark.sql.Dataset;

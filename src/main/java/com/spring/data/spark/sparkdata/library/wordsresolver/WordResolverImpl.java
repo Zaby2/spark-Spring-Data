@@ -1,7 +1,11 @@
 package com.spring.data.spark.sparkdata.library.wordsresolver;
 
+import java.beans.Introspector;
+import java.net.StandardSocketOptions;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 // maybe here we don't need to parse a single word, but how to parse word like findBy?
@@ -24,5 +28,22 @@ public class WordResolverImpl implements WordResolver {
             words.add(currentWord.toString());
         }
         return words;
+    }
+
+    @Override
+    public String findAndRemoveMatchingMethodNamesIfExists(Set<String> options, List<String> words) {
+        StringBuilder match = new StringBuilder(words.remove(0));
+        List<String> remainOptions = options.stream().filter(option -> option.toLowerCase().startsWith(match.toString().toLowerCase())).toList();
+        if(remainOptions.isEmpty()) {
+            return "";
+        }
+        while (remainOptions.size() > 1) {
+            match.append(words.remove(0));
+            remainOptions.removeIf(option -> !option.toLowerCase().startsWith(match.toString().toLowerCase()));
+        }
+        while(!remainOptions.get(0).equalsIgnoreCase(match.toString())) {
+            match.append(words.remove(0));
+        }
+        return Introspector.decapitalize(match.toString());
     }
 }
