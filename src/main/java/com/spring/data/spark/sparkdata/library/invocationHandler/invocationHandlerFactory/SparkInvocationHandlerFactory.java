@@ -11,6 +11,7 @@ import com.spring.data.spark.sparkdata.library.invocationHandler.SparkTransforma
 import com.spring.data.spark.sparkdata.library.repository.SparkRepository;
 import com.spring.data.spark.sparkdata.library.wordsresolver.WordResolver;
 import com.spring.data.spark.sparkdata.library.wordsresolver.WordResolverImpl;
+import org.springframework.context.ConfigurableApplicationContext;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -18,18 +19,21 @@ import java.lang.reflect.ParameterizedType;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
+// how to set all this fields?
 public class SparkInvocationHandlerFactory {
 
     private Map<String, TransformationSpider> transformationSpiderMap;
-    private Map<String, Finalizer> finalizerMap = new HashMap<>();
+    private Map<String, Finalizer> finalizerMap;
 
     private DataExtractorResolver resolver;
 
+    private ConfigurableApplicationContext context;
 
+    private List<SparkTransformation> transformations = new ArrayList<>();
     private WordResolver wordResolver = new WordResolverImpl();
 
     private Map<Method, Finalizer> methodFinalizerMap = new HashMap<>();
+
 
 
     public SparkInvocationHandler createSparkInvocationHandler(Class<? extends SparkRepository> sparkRepositoryImpl) {
@@ -39,7 +43,6 @@ public class SparkInvocationHandlerFactory {
         DataExtractor dataExtractor = resolver.resolve(pathToData);
         Map<Method, List<SparkTransformation>> transformationChain = new HashMap<>();
         Method [] methods = sparkRepositoryImpl.getMethods();
-        List<SparkTransformation> transformations = new ArrayList<>();
         String finalizerType = "collect"; // def val for finalizers
         for (Method method : methods) {
             TransformationSpider transformationSpider = null;
@@ -56,12 +59,15 @@ public class SparkInvocationHandlerFactory {
             methodFinalizerMap.put(method, finalizerMap.get(finalizerType));
         }
 
+
+
         return SparkInvocationHandler.builder()
                 .model(modelClass)
                 .pathToData(pathToData)
                 .dataExtractor(dataExtractor)
                 .transformationChain(transformationChain)
                 .finalizerMap(methodFinalizerMap)
+                .context(context)
                 .build();
 
     }
