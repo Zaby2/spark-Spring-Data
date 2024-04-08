@@ -10,6 +10,10 @@ public class CsvDataExtractor implements DataExtractor {
 
     @Override
     public Dataset<Row> load(String pathToData, ConfigurableApplicationContext context) {
-        return context.getBean(SparkSession.class).read().csv(pathToData);
+        return context.getBean(SparkSession.class)
+                .read()
+                .option("header", true)
+                .option("inferSchema", true)
+                .csv(pathToData);
     }
 }

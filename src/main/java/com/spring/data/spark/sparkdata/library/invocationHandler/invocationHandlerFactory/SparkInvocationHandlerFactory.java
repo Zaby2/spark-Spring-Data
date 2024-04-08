@@ -7,7 +7,7 @@ import com.spring.data.spark.sparkdata.library.dataExtractors.dataresolver.DataE
 import com.spring.data.spark.sparkdata.library.dataExtractors.spider.TransformationSpider;
 import com.spring.data.spark.sparkdata.library.finalizers.Finalizer;
 import com.spring.data.spark.sparkdata.library.invocationHandler.SparkInvocationHandler;
-import com.spring.data.spark.sparkdata.library.invocationHandler.SparkTransformation;
+import com.spring.data.spark.sparkdata.library.invocationHandler.sparkTransformations.SparkTransformation;
 import com.spring.data.spark.sparkdata.library.repository.SparkRepository;
 import com.spring.data.spark.sparkdata.library.wordsresolver.WordResolver;
 import com.spring.data.spark.sparkdata.library.wordsresolver.WordResolverImpl;
@@ -52,7 +52,7 @@ public class SparkInvocationHandlerFactory {
                 if(!transformationSpiderName.isEmpty()) {
                     transformationSpider = transformationSpiderMap.get(transformationSpiderName); // here we will always switch to the valid strategy
                 }
-                transformations.add(transformationSpider.getTransformation(methodWords));
+                transformations.add(transformationSpider.getTransformation(methodWords ,fieldNames ));
             }
             transformationChain.put(method, transformations);
             if(methodWords.size() == 1) finalizerType = methodWords.remove(0);

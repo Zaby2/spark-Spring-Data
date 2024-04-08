@@ -2,6 +2,7 @@ package com.spring.data.spark.sparkdata.library.invocationHandler;
 
 import com.spring.data.spark.sparkdata.library.dataExtractors.DataExtractor;
 import com.spring.data.spark.sparkdata.library.finalizers.Finalizer;
+import com.spring.data.spark.sparkdata.library.invocationHandler.sparkTransformations.SparkTransformation;
 import lombok.Builder;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
@@ -35,7 +36,7 @@ public class SparkInvocationHandler implements InvocationHandler {
             dataset = sparkTransformation.transform(dataset);
         }
         Finalizer finalizer = finalizerMap.get(method);
-        Object retVal = finalizer.doAction(dataset);
+        Object retVal = finalizer.doAction(dataset, model);
         return retVal;
     }
 }
