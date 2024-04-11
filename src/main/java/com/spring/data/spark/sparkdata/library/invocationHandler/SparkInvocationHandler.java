@@ -36,7 +36,6 @@ public class SparkInvocationHandler implements InvocationHandler {
             dataset = sparkTransformation.transform(dataset);
         }
         Finalizer finalizer = finalizerMap.get(method);
-        Object retVal = finalizer.doAction(dataset, model);
-        return retVal;
+        return finalizer.doAction(dataset, model);
     }
 }
