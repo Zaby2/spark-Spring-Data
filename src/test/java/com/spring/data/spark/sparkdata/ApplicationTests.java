@@ -1,6 +1,6 @@
 package com.spring.data.spark.sparkdata;
 
-import com.spring.data.spark.sparkdata.library.wordsresolver.WordResolverImpl;
+import com.spring.data.spark.sparkdata.library_unsafe.wordsresolver.WordResolverImpl;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 

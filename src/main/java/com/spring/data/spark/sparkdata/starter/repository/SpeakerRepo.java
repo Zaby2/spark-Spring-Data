@@ -1,6 +1,6 @@
 package com.spring.data.spark.sparkdata.starter.repository;
 
-import com.spring.data.spark.sparkdata.library.repository.SparkRepository;
+import com.spring.data.spark.sparkdata.library_unsafe.repository.SparkRepository;
 import com.spring.data.spark.sparkdata.starter.model.Speaker;
 
 import java.util.List;
