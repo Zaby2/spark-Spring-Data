@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 
-// So this class need to be set by factory
+// Now this class is set by factory
 
 @Builder
 public class SparkInvocationHandler implements InvocationHandler {

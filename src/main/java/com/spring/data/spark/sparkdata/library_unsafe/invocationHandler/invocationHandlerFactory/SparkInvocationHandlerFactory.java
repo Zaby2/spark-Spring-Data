@@ -23,12 +23,12 @@ import java.lang.reflect.ParameterizedType;
 import java.util.*;
 import java.util.stream.Collectors;
 
-// how to set all this fields?
+
 @Component
 @RequiredArgsConstructor
 public class SparkInvocationHandlerFactory {
 
-    private final Map<String, TransformationSpider> transformationSpiderMap;
+    private final Map<String, TransformationSpider> transformationSpiderMap; // name of transformation -> transformation
     private final Map<String, Finalizer> finalizerMap;
     private final DataExtractorResolver resolver;
 
@@ -60,7 +60,7 @@ public class SparkInvocationHandlerFactory {
                 if(!transformationSpiderName.isEmpty()) {
                     transformationSpider = transformationSpiderMap.get(transformationSpiderName); // here we will always switch to the valid strategy
                 }
-                transformations.add(transformationSpider.getTransformation(methodWords ,fieldNames ));
+                transformations.add(transformationSpider.getTransformation(methodWords ,fieldNames));
             }
             transformationChain.put(method, transformations);
             if(methodWords.size() == 1) finalizerType = Introspector.decapitalize(methodWords.remove(0));

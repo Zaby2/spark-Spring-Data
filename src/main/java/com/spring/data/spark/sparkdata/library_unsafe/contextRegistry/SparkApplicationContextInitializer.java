@@ -16,10 +16,10 @@ import java.util.Set;
 public class SparkApplicationContextInitializer implements ApplicationContextInitializer {
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
-        AnnotationConfigApplicationContext tempContext = new AnnotationConfigApplicationContext("com.spring.data.spark.sparkdata.library_unsafe");
+        AnnotationConfigApplicationContext tempContext = new AnnotationConfigApplicationContext("com.spring.data.spark.sparkdata.library_unsafe"); // protected from scanning of another context
         SparkInvocationHandlerFactory invocationHandlerFactoryBean = tempContext.getBean(SparkInvocationHandlerFactory.class);
         tempContext.close();
-
+        invocationHandlerFactoryBean.setRealContext(applicationContext);
         registerSparkBean(applicationContext);
         String scannerPath = applicationContext.getEnvironment().getProperty("spark.packages-to-scan");
         Reflections scanner = new Reflections(scannerPath);
