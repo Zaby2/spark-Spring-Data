@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
+import scala.Tuple2;
 
 import java.beans.Introspector;
 import java.lang.reflect.Field;
@@ -37,7 +38,7 @@ public class SparkInvocationHandlerFactory {
 
 
 
-    private List<SparkTransformation> transformations = new ArrayList<>();
+    private List<Tuple2<SparkTransformation, List<String>>> transformations = new ArrayList<>();
     private WordResolver wordResolver = new WordResolverImpl();
 
     private Map<Method, Finalizer> methodFinalizerMap = new HashMap<>();
@@ -49,7 +50,7 @@ public class SparkInvocationHandlerFactory {
         String pathToData = modelClass.getAnnotation(Source.class).value();
         Set<String> fieldNames = getFieldNames(sparkRepositoryImpl);
         DataExtractor dataExtractor = resolver.resolve(pathToData);
-        Map<Method, List<SparkTransformation>> transformationChain = new HashMap<>();
+        Map<Method, List<Tuple2<SparkTransformation, List<String>>>> transformationChain = new HashMap<>();
         Method [] methods = sparkRepositoryImpl.getMethods();
         String finalizerType = "collect"; // def val for finalizers
         for (Method method : methods) {

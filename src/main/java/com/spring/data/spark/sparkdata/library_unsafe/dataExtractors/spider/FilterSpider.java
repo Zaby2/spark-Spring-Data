@@ -4,21 +4,25 @@ import com.spring.data.spark.sparkdata.library_unsafe.invocationHandler.sparkTra
 import com.spring.data.spark.sparkdata.library_unsafe.invocationHandler.sparkTransformations.SparkTransformation;
 import com.spring.data.spark.sparkdata.library_unsafe.wordsresolver.WordResolver;
 import com.spring.data.spark.sparkdata.library_unsafe.wordsresolver.WordResolverImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import scala.Tuple2;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 @Component("findBy")
+@RequiredArgsConstructor
 public class FilterSpider implements TransformationSpider {
-    private Map<String, FilterTransformation> filterTransformationMap;
+    private final Map<String, FilterTransformation> filterTransformationMap;
     WordResolver wordResolver = new WordResolverImpl();
 
     @Override
-    public SparkTransformation getTransformation(List<String> methodWords, Set<String> fieldNames) {
-        String fieldName = wordResolver.findAndRemoveMatchingMethodNamesIfExists(fieldNames, methodWords);
+    public Tuple2<SparkTransformation, List<String>> getTransformation(List<String> methodWords, Set<String> fieldNames) {
+        List<String> columnNames = List.of(wordResolver.findAndRemoveMatchingMethodNamesIfExists(fieldNames, methodWords));
         String filterName = wordResolver.findAndRemoveMatchingMethodNamesIfExists(filterTransformationMap.keySet(), methodWords);
-        return filterTransformationMap.get(filterName);
+        return new Tuple2<>(filterTransformationMap.get(filterName), columnNames);
     }
 }
