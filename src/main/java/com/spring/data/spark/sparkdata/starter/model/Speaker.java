@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Source("data/speakers.json") // point to bd file or sth;
+@Source("data/speakers.json") // point to db file or sth;
 public class Speaker {
     private String name;
     private int age;
