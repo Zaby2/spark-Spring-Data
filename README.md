@@ -34,6 +34,7 @@ This project integrates Apache Spark with Spring Data, offering a seamless bridg
 
 ## Contributing
 Contributions are welcome! If you have any ideas, suggestions, or bug fixes, feel free to open an issue or submit a pull request on GitHub.
+Fixes for issues are also imrotant
 
 
 ## Contact
